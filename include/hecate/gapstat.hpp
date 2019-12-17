@@ -82,11 +82,11 @@ namespace hecate {
   {
       if(km_data.rows==1){
           km_lbl = Mat::zeros(1,1, km_lbl.type());
-          cv::reduce( km_data, km_ctr, 0, CV_REDUCE_AVG );
+          cv::reduce( km_data, km_ctr, 0, REDUCE_AVG );
       }
       else{
         int km_k = min(ncluster, km_data.rows);
-        TermCriteria km_opt = TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, km_max_cnt, km_eps);
+        TermCriteria km_opt = TermCriteria(cv::TermCriteria::MAX_ITER|cv::TermCriteria::EPS, km_max_cnt, km_eps);
         kmeans( km_data, km_k, km_lbl, km_opt, km_attempts, KMEANS_PP_CENTERS, km_ctr );
       }
 }

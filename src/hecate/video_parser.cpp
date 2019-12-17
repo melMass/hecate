@@ -107,10 +107,10 @@ int VideoParser::read_video( const string& in_video, int step_sz,
     return -1;
   }
   
-  _nfrm_total   = vr.get(CV_CAP_PROP_FRAME_COUNT);
-  _video_width  = vr.get(CV_CAP_PROP_FRAME_WIDTH);
-  _video_height = vr.get(CV_CAP_PROP_FRAME_HEIGHT);
-  _video_fps    = max(1.0, vr.get(CV_CAP_PROP_FPS));
+  _nfrm_total   = vr.get(CAP_PROP_FRAME_COUNT);
+  _video_width  = vr.get(CAP_PROP_FRAME_WIDTH);
+  _video_height = vr.get(CAP_PROP_FRAME_HEIGHT);
+  _video_fps    = max(1.0, vr.get(CAP_PROP_FPS));
   if( _video_fps!=_video_fps )
     _video_fps = 29.97;
   
@@ -146,7 +146,7 @@ int VideoParser::read_video( const string& in_video, int step_sz,
     
     if( _nfrm_total % _step_sz == 0 ) {
       if( rsz_ratio>0 )
-        resize( frm, frm, Size(), rsz_ratio, rsz_ratio, CV_INTER_LINEAR );
+        resize( frm, frm, Size(), rsz_ratio, rsz_ratio, INTER_LINEAR );
       _v_frm_rgb.push_back( frm );
       
       // if video is too long, and ignore_rest is true, cut the rest
@@ -171,7 +171,7 @@ int VideoParser::read_video( const string& in_video, int step_sz,
   for( int i=0; i<_nfrm_given; i++ )
   {
     Mat frm_gray;
-    cvtColor( _v_frm_rgb[i], frm_gray, CV_BGR2GRAY );
+    cvtColor( _v_frm_rgb[i], frm_gray, COLOR_BGR2GRAY );
     GaussianBlur( frm_gray, frm_gray, Size(3,3), 0, 0 );
     frm_gray.copyTo( _v_frm_gray[i] );
   }
@@ -287,7 +287,7 @@ void VideoParser::filter_transition( double thrsh_diff, double thrsh_ecr )
     for(int i=0; i<_nfrm_given; i++)
     {
       Mat tmp;
-      double theta = threshold(_v_frm_gray[i],tmp,0,255,CV_THRESH_BINARY|CV_THRESH_OTSU);
+      double theta = threshold(_v_frm_gray[i],tmp,0,255,THRESH_BINARY|THRESH_OTSU);
       Canny( _v_frm_gray[i], v_edge[i], theta, 1.2*theta);
       dilate( v_edge[i], v_edge_dl[i], dl_elm );
       v_edge[i] -= 254; v_edge_dl[i] -= 254;
@@ -625,8 +625,8 @@ void VideoParser::play_video_filtered( const string& in_video,
   
   VideoCapture vr( in_video );
   vr >> frm;
-  resize( frm, frm, Size(), debug_rsz_ratio, debug_rsz_ratio, CV_INTER_LINEAR );
-  vr.set( CV_CAP_PROP_POS_FRAMES, 0 );
+  resize( frm, frm, Size(), debug_rsz_ratio, debug_rsz_ratio, INTER_LINEAR );
+  vr.set( CAP_PROP_POS_FRAMES, 0 );
   
   Size sz = frm.size();
   Mat frm_lr( sz.height, 2*sz.width, CV_8UC3 );
@@ -641,7 +641,7 @@ void VideoParser::play_video_filtered( const string& in_video,
       if( frm.empty() ) break;
     }
     if( frm.empty() ) break;
-    resize( frm, frm, Size(), debug_rsz_ratio, debug_rsz_ratio, CV_INTER_LINEAR );
+    resize( frm, frm, Size(), debug_rsz_ratio, debug_rsz_ratio, INTER_LINEAR );
     
     std::stringstream s;
     s << _v_frm_log[i];

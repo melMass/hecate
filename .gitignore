@@ -1,2 +1,5 @@
 distribute/
 build/
+.build/
+build
+.build_release/

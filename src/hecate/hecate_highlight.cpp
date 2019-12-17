@@ -172,7 +172,7 @@ void detect_highlight_shots( hecate_params& opt, hecate::video_metadata& meta,
   for( size_t shotid=0; shotid<v_candidates.size(); shotid++ ) {
     hecate::Range s = v_candidates[shotid];
     Mat Xsub = X( Rect(0, s.start, X.cols, s.length()) );
-    cv::reduce( Xsub, km_data.row(shotid), 0, CV_REDUCE_AVG );
+    cv::reduce( Xsub, km_data.row(shotid), 0, REDUCE_AVG );
   }
   
   // Perform k-means (repeat 5 times)
@@ -441,7 +441,7 @@ void generate_highlight_clips( hecate_params& opt, vector<hecate::Range>& v_high
   string filename = hecate::get_filename( std::string(opt.in_video) );
   
   VideoCapture vr( opt.in_video );
-  double fps = vr.get(CV_CAP_PROP_FPS);
+  double fps = vr.get(CAP_PROP_FPS);
   vr.release();
   
   // Sort shots in chronological order

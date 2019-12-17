@@ -156,7 +156,7 @@ void generate_thumbnails( hecate_params& opt, vector<int>& v_thumb_idx )
   string filename = hecate::get_filename( std::string(opt.in_video) );
 
   VideoCapture vr( opt.in_video );
-  double rsz_ratio = (double)(2+opt.jpg_width_px)/vr.get(CV_CAP_PROP_FRAME_WIDTH);
+  double rsz_ratio = (double)(2+opt.jpg_width_px)/vr.get(CAP_PROP_FRAME_WIDTH);
   while( njpg_cnt < (int)v_thumb_idx.size() )
   {
     Mat frm; vr>>frm;
@@ -173,7 +173,7 @@ void generate_thumbnails( hecate_params& opt, vector<int>& v_thumb_idx )
 
     // Save that thumbnail
     if( rank>=0 && rank<opt.njpg ) {
-      resize( frm, frm, Size(), rsz_ratio, rsz_ratio, CV_INTER_LINEAR );
+      resize( frm, frm, Size(), rsz_ratio, rsz_ratio, INTER_LINEAR );
       frm = frm(Rect(0,0,frm.cols-2,frm.rows));
       sprintf( strbuf, "%s/%s_%02d.jpg",
               opt.out_dir.c_str(), filename.c_str(), rank );

@@ -84,7 +84,7 @@ void Segmenter::dpseg(const Mat& X, const vector<int>& cp, vector<vector<int> >&
   
   // v = [0;cumsum(sum(X.*X,2))]; % cumsum of squared norm of the rows
   Mat vsub = v( Rect(0,1,1,n) );
-  cv::reduce( X.mul(X), vsub, 1, CV_REDUCE_SUM );
+  cv::reduce( X.mul(X), vsub, 1, REDUCE_SUM );
   cumsum( vsub, vsub );
   
   for( int i=0; i<k; i++ ) {
@@ -254,11 +254,11 @@ void Segmenter::gflars(const Mat& X, vector<int>& jumps,
     vector<int> subset;
     
     // >> a1 = bigcHat - sum(B.^2,2);
-    cv::reduce( B.mul(B), a1, 1, CV_REDUCE_SUM );
+    cv::reduce( B.mul(B), a1, 1, REDUCE_SUM );
     a1 = bigcHat - a1;
     
     // >> a2 = bigcHat - sum(B.*cHat,2);
-    cv::reduce( B.mul(cHat), a2, 1, CV_REDUCE_SUM );
+    cv::reduce( B.mul(cHat), a2, 1, REDUCE_SUM );
     a2 = bigcHat - a2;
     
     // >> a3 = bigcHat - cHatSquareNorm;

@@ -100,7 +100,7 @@ namespace hecate {
     }
     else {
       Mat hist_sorted;
-      cv::sort( ghist, hist_sorted, CV_SORT_EVERY_COLUMN|CV_SORT_DESCENDING );
+      cv::sort( ghist, hist_sorted, SORT_EVERY_COLUMN|SORT_DESCENDING );
       hist_sorted /= cv::sum( hist_sorted )[0];
       for(int j=0; j<(int)(0.05*nbins); j++)
         val += (double) hist_sorted.at<float>(j);

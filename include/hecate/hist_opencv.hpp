@@ -44,9 +44,9 @@ namespace hecate {
     float _range_val_clr[] = {0,256};
     const float* _range_clr = {_range_val_clr};
     
-    // CV_BGR2HSV, CV_BGR2HLS, CV_BGR2YCrCb
+    // COLOR_BGR2HSV, COLOR_BGR2HLS, COLOR_BGR2YCrCb
     Mat img_cvt;
-    cvtColor( img, img_cvt, CV_BGR2HSV );
+    cvtColor( img, img_cvt, COLOR_BGR2HSV );
     
     vector<Mat> planes;
     split( img_cvt, planes );
